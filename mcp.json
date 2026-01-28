@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub API integration for PR, issues, and repository management"
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Persistent memory for context across sessions"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp-server"],
+      "description": "Up-to-date documentation for libraries"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${PROJECT_DIR}"],
+      "description": "File system operations"
+    }
+  },
+  "notes": {
+    "github": "GitHub Personal Access Token required. Set GITHUB_TOKEN environment variable.",
+    "memory": "Stores conversation context between sessions.",
+    "context7": "Provides latest documentation for Android libraries like Jetpack, Hilt, Retrofit, etc.",
+    "filesystem": "Enables file read/write operations within the project directory."
+  },
+  "recommended": [
+    "github",
+    "memory",
+    "context7"
+  ]
+}

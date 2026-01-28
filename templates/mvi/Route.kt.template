@@ -1,0 +1,51 @@
+package {{PACKAGE}}.ui
+
+import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import {{PACKAGE}}.{{FEATURE_NAME}}Contract
+import {{PACKAGE}}.{{FEATURE_NAME}}ViewModel
+
+/**
+ * {{FEATURE_NAME}} Route
+ *
+ * Navigation entry point
+ * - ViewModel 연결
+ * - SideEffect 처리
+ * - Navigation 콜백
+ */
+@Composable
+fun {{FEATURE_NAME}}Route(
+    viewModel: {{FEATURE_NAME}}ViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    // SideEffect 처리
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is {{FEATURE_NAME}}Contract.SideEffect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+                is {{FEATURE_NAME}}Contract.SideEffect.ShowSnackbar -> {
+                    // TODO: Handle snackbar with SnackbarHostState
+                }
+                {{FEATURE_NAME}}Contract.SideEffect.NavigateBack -> {
+                    onNavigateBack()
+                }
+            }
+        }
+    }
+
+    {{FEATURE_NAME}}Screen(
+        state = state,
+        onIntent = viewModel::processIntent,
+        onNavigateBack = onNavigateBack
+    )
+}

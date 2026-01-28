@@ -1,0 +1,53 @@
+package {{PACKAGE}}
+
+import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+
+/**
+ * {{FEATURE_NAME}} Feature Contract
+ *
+ * MVI 패턴의 State, Intent, SideEffect 정의
+ */
+interface {{FEATURE_NAME}}Contract {
+
+    /**
+     * UI State
+     * - Immutable data class로 정의
+     * - 모든 UI 상태를 포함
+     */
+    @Immutable
+    data class State(
+        val isLoading: Boolean = false,
+        val data: {{DATA_TYPE}}? = null,
+        val error: String? = null
+    ) {
+        companion object {
+            val Initial = State()
+            val Loading = State(isLoading = true)
+        }
+    }
+
+    /**
+     * User Intents
+     * - 사용자 액션 정의
+     * - ViewModel에서 처리
+     */
+    sealed interface Intent {
+        data object Load : Intent
+        data object Refresh : Intent
+        // TODO: Add more intents
+    }
+
+    /**
+     * Side Effects
+     * - 일회성 이벤트
+     * - Navigation, Toast, Snackbar 등
+     */
+    sealed interface SideEffect {
+        data class ShowToast(val message: String) : SideEffect
+        data class ShowSnackbar(val message: String, val action: String? = null) : SideEffect
+        data object NavigateBack : SideEffect
+        // TODO: Add more side effects
+    }
+}

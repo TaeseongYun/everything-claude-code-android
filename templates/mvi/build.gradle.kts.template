@@ -1,0 +1,32 @@
+plugins {
+    id("nhnad.android.feature")
+}
+
+android {
+    namespace = "{{FULL_PACKAGE}}"
+}
+
+dependencies {
+    // Core modules
+    implementation(project(":core:ui"))
+    implementation(project(":core:common"))
+    implementation(project(":designsystem"))
+
+    // Domain
+    implementation(project(":domain"))
+
+    // Immutable collections for Compose stability
+    implementation(libs.kotlinx.collections.immutable)
+
+    // Testing
+    testImplementation(project(":core:testing"))
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
+
+    // Android Testing
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.compose.ui.test)
+}

@@ -1,0 +1,89 @@
+package {{PACKAGE}}
+
+import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class {{FEATURE_NAME}}ViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private lateinit var viewModel: {{FEATURE_NAME}}ViewModel
+    // TODO: Add mock use cases
+    // private val useCase: SomeUseCase = mockk()
+
+    @Before
+    fun setup() {
+        // TODO: Setup mock responses
+        // coEvery { useCase() } returns Result.success(testData)
+
+        viewModel = {{FEATURE_NAME}}ViewModel(
+            savedStateHandle = SavedStateHandle()
+        )
+    }
+
+    @Test
+    fun `initial state is correct`() = runTest {
+        // Then
+        val state = viewModel.state.value
+        assertThat(state.isLoading).isFalse()
+        assertThat(state.error).isNull()
+    }
+
+    @Test
+    fun `Load intent should update state`() = runTest {
+        // When
+        viewModel.processIntent({{FEATURE_NAME}}Contract.Intent.Load)
+
+        // Then
+        val state = viewModel.state.value
+        // TODO: Add assertions based on your implementation
+    }
+
+    @Test
+    fun `Refresh intent should reload data`() = runTest {
+        // When
+        viewModel.processIntent({{FEATURE_NAME}}Contract.Intent.Refresh)
+
+        // Then
+        val state = viewModel.state.value
+        // TODO: Add assertions
+    }
+
+    @Test
+    fun `error should be set when loading fails`() = runTest {
+        // Given
+        // TODO: Setup error response
+        // coEvery { useCase() } returns Result.failure(Exception("Test error"))
+
+        // When
+        viewModel.processIntent({{FEATURE_NAME}}Contract.Intent.Load)
+
+        // Then
+        // val state = viewModel.state.value
+        // assertThat(state.error).isEqualTo("Test error")
+    }
+
+    @Test
+    fun `side effect should be emitted`() = runTest {
+        viewModel.sideEffect.test {
+            // When: trigger action that emits side effect
+            // viewModel.processIntent(SomeIntent)
+
+            // Then
+            // val effect = awaitItem()
+            // assertThat(effect).isInstanceOf(SideEffect.ShowToast::class.java)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+}

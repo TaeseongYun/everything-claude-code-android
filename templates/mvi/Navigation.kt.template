@@ -1,0 +1,58 @@
+package {{PACKAGE}}.navigation
+
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import {{PACKAGE}}.ui.{{FEATURE_NAME}}Route
+
+/**
+ * {{FEATURE_NAME}} Navigation
+ */
+
+const val {{FEATURE_NAME_UPPER}}_ROUTE = "{{FEATURE_NAME_LOWER}}"
+
+// With arguments example:
+// const val {{FEATURE_NAME_UPPER}}_ROUTE = "{{FEATURE_NAME_LOWER}}/{itemId}"
+
+/**
+ * NavGraphBuilder extension for {{FEATURE_NAME}}
+ */
+fun NavGraphBuilder.{{FEATURE_NAME_CAMEL}}Screen(
+    onNavigateBack: () -> Unit
+) {
+    composable(route = {{FEATURE_NAME_UPPER}}_ROUTE) {
+        {{FEATURE_NAME}}Route(
+            onNavigateBack = onNavigateBack
+        )
+    }
+}
+
+// With arguments example:
+// fun NavGraphBuilder.{{FEATURE_NAME_CAMEL}}Screen(
+//     onNavigateBack: () -> Unit
+// ) {
+//     composable(
+//         route = {{FEATURE_NAME_UPPER}}_ROUTE,
+//         arguments = listOf(
+//             navArgument("itemId") { type = NavType.StringType }
+//         )
+//     ) {
+//         {{FEATURE_NAME}}Route(
+//             onNavigateBack = onNavigateBack
+//         )
+//     }
+// }
+
+/**
+ * NavController extension for navigation
+ */
+fun NavController.navigateTo{{FEATURE_NAME}}() {
+    navigate({{FEATURE_NAME_UPPER}}_ROUTE)
+}
+
+// With arguments example:
+// fun NavController.navigateTo{{FEATURE_NAME}}(itemId: String) {
+//     navigate("{{FEATURE_NAME_LOWER}}/$itemId")
+// }

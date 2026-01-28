@@ -1,0 +1,75 @@
+package {{PACKAGE}}
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class {{FEATURE_NAME}}ViewModel @Inject constructor(
+    // TODO: Add use cases
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    // State
+    private val _state = MutableStateFlow({{FEATURE_NAME}}Contract.State.Initial)
+    val state: StateFlow<{{FEATURE_NAME}}Contract.State> = _state.asStateFlow()
+
+    // Side Effects
+    private val _sideEffect = Channel<{{FEATURE_NAME}}Contract.SideEffect>(Channel.BUFFERED)
+    val sideEffect: Flow<{{FEATURE_NAME}}Contract.SideEffect> = _sideEffect.receiveAsFlow()
+
+    init {
+        processIntent({{FEATURE_NAME}}Contract.Intent.Load)
+    }
+
+    /**
+     * Intent 처리 - 단일 진입점
+     */
+    fun processIntent(intent: {{FEATURE_NAME}}Contract.Intent) {
+        when (intent) {
+            is {{FEATURE_NAME}}Contract.Intent.Load -> load()
+            is {{FEATURE_NAME}}Contract.Intent.Refresh -> refresh()
+        }
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, error = null) }
+
+            // TODO: Implement loading logic
+            // useCase()
+            //     .onSuccess { data ->
+            //         _state.update { it.copy(data = data, isLoading = false) }
+            //     }
+            //     .onFailure { error ->
+            //         _state.update { it.copy(error = error.message, isLoading = false) }
+            //     }
+
+            // Placeholder
+            _state.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun refresh() {
+        load()
+    }
+
+    /**
+     * SideEffect 전송 헬퍼
+     */
+    private fun sendSideEffect(effect: {{FEATURE_NAME}}Contract.SideEffect) {
+        viewModelScope.launch {
+            _sideEffect.send(effect)
+        }
+    }
+}

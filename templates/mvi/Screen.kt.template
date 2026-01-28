@@ -1,0 +1,127 @@
+package {{PACKAGE}}.ui
+
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import {{PACKAGE}}.{{FEATURE_NAME}}Contract
+
+/**
+ * {{FEATURE_NAME}} Screen
+ *
+ * UI 구현
+ * - State를 받아서 렌더링
+ * - 사용자 액션을 Intent로 변환
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun {{FEATURE_NAME}}Screen(
+    state: {{FEATURE_NAME}}Contract.State,
+    onIntent: ({{FEATURE_NAME}}Contract.Intent) -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("{{FEATURE_NAME}}") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        {{FEATURE_NAME}}Content(
+            state = state,
+            onIntent = onIntent,
+            modifier = Modifier.padding(padding)
+        )
+    }
+}
+
+@Composable
+private fun {{FEATURE_NAME}}Content(
+    state: {{FEATURE_NAME}}Contract.State,
+    onIntent: ({{FEATURE_NAME}}Contract.Intent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator()
+            }
+            state.error != null -> {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = state.error,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                    Button(onClick = { onIntent({{FEATURE_NAME}}Contract.Intent.Refresh) }) {
+                        Text("Retry")
+                    }
+                }
+            }
+            else -> {
+                // TODO: Implement main content
+                Text("{{FEATURE_NAME}} Content")
+            }
+        }
+    }
+}
+
+// region Previews
+
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun {{FEATURE_NAME}}ScreenPreview() {
+    MaterialTheme {
+        {{FEATURE_NAME}}Screen(
+            state = {{FEATURE_NAME}}Contract.State(),
+            onIntent = {},
+            onNavigateBack = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun {{FEATURE_NAME}}ScreenLoadingPreview() {
+    MaterialTheme {
+        {{FEATURE_NAME}}Screen(
+            state = {{FEATURE_NAME}}Contract.State(isLoading = true),
+            onIntent = {},
+            onNavigateBack = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun {{FEATURE_NAME}}ScreenErrorPreview() {
+    MaterialTheme {
+        {{FEATURE_NAME}}Screen(
+            state = {{FEATURE_NAME}}Contract.State(error = "Something went wrong"),
+            onIntent = {},
+            onNavigateBack = {}
+        )
+    }
+}
+
+// endregion
