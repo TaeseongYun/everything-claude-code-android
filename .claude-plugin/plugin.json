@@ -1,6 +1,6 @@
 {
   "name": "everything-claude-code-android",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Claude Code plugin for Android/Kotlin with real code generation and Compose performance analysis",
   "author": {
     "name": "TaeseongYun",
@@ -23,17 +23,14 @@
   "skills": ["./skills/"],
   "agents": [
     "./agents/architect.md",
-    "./agents/build-error-resolver.md",
+    "./agents/build-fixer.md",
     "./agents/code-reviewer.md",
-    "./agents/database-reviewer.md",
-    "./agents/doc-updater.md",
-    "./agents/e2e-runner.md",
-    "./agents/go-build-resolver.md",
-    "./agents/go-reviewer.md",
+    "./agents/documenter.md",
+    "./agents/e2e-tester.md",
     "./agents/planner.md",
-    "./agents/refactor-cleaner.md",
-    "./agents/security-reviewer.md",
-    "./agents/tdd-guide.md"
+    "./agents/refactorer.md",
+    "./agents/security-auditor.md",
+    "./agents/tdd.md"
   ],
-  "hooks": "./hooks/hooks.json"
+  "hooks": "./hooks/"
 }
